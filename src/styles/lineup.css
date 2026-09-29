@@ -1,0 +1,311 @@
+/* Structural layout & Obsidian theme mapping for LineUp Bases view.
+   Consolidates layout, sidebar toggle, and Obsidian UI tokens. */
+
+.obsidian-lineup-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--background-primary);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--radius-m);
+  font-family: var(--font-interface);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-normal);
+  touch-action: pan-x pan-y;
+}
+
+/* Ensure embedded bases in markdown notes have sufficient vertical space */
+.internal-embed .obsidian-lineup-wrapper,
+.markdown-embed .obsidian-lineup-wrapper,
+.block-language-bases .obsidian-lineup-wrapper {
+  min-height: 480px;
+  height: 480px;
+}
+
+/* Suppress LineUp's internal collapser in favor of our accessible custom toggle */
+.obsidian-lineup-wrapper .lu-collapser,
+.obsidian-lineup-wrapper [class*="collapser"] {
+  display: none !important;
+}
+
+/* Flex layout: main table + side panel */
+.obsidian-lineup-wrapper.lu {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.obsidian-lineup-wrapper.lu > main {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  order: 1;
+}
+
+.obsidian-lineup-wrapper.lu > aside,
+.obsidian-lineup-wrapper.lu > .lu-side-panel {
+  flex: 0 0 240px;
+  width: 240px;
+  max-width: 240px;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  float: none;
+  position: relative;
+  z-index: 30;
+  order: 2;
+  background-color: var(--background-secondary);
+  border-left: 1px solid var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .le-body,
+.obsidian-lineup-wrapper .le-tbody,
+.obsidian-lineup-wrapper .lu-header {
+  user-select: none;
+}
+
+/* Header & handle styling */
+.obsidian-lineup-wrapper .lu-header {
+  background-color: var(--background-secondary);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .lu-header:hover {
+  color: var(--text-normal);
+}
+
+.obsidian-lineup-wrapper .lu-handle {
+  background-color: var(--divider-color);
+}
+
+/* Table rows and row selection */
+.obsidian-lineup-wrapper .le-tr {
+  background-color: var(--background-primary);
+  border-bottom: 1px solid var(--background-secondary);
+}
+
+.obsidian-lineup-wrapper .le-tr:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.obsidian-lineup-wrapper .le-tr.lu-selected {
+  background-color: var(--background-modifier-active-hover) !important;
+  box-shadow: none !important;
+}
+
+/* Histogram & distribution bars */
+.obsidian-lineup-wrapper .lu-histogram-bin > div {
+  background-color: var(--interactive-accent);
+}
+
+/* Accessible toggle button for filter/ranking panel */
+.obsidian-lineup-panel-toggle {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 60;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--text-muted);
+  background: var(--background-secondary);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-s);
+}
+
+.obsidian-lineup-panel-toggle:hover {
+  color: var(--text-normal);
+  background: var(--background-modifier-hover);
+}
+
+/* Collapsed side panel state */
+.obsidian-lineup-wrapper.lu-panel-collapsed > main {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.obsidian-lineup-wrapper.lu-panel-collapsed > aside,
+.obsidian-lineup-wrapper.lu-panel-collapsed > .lu-side-panel {
+  display: none !important;
+}
+
+/* Floating dialogs, menus, search dropdowns and tooltips */
+.obsidian-lineup-wrapper .lu-dialog,
+.obsidian-lineup-wrapper .lu-tooltip,
+.obsidian-lineup-wrapper .lu-rule-violation {
+  z-index: 100;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-l);
+}
+
+.obsidian-lineup-wrapper .lu-backdrop-bg {
+  background: var(--background-modifier-cover);
+}
+
+.obsidian-lineup-wrapper .lu-dialog input[type="text"],
+.obsidian-lineup-wrapper .lu-dialog input[type="number"],
+.obsidian-lineup-wrapper .lu-dialog select,
+.obsidian-lineup-wrapper .lu-summary input[type="text"],
+.obsidian-lineup-wrapper .lu-summary select {
+  background-color: var(--background-primary-alt);
+  color: var(--text-normal);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--radius-s);
+}
+
+.obsidian-lineup-wrapper .lu-dialog-button {
+  color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-dialog-button:hover,
+.obsidian-lineup-wrapper .lu-dialog-button:active,
+.obsidian-lineup-wrapper .lu-dialog-button:focus {
+  color: var(--text-normal);
+}
+
+/* More-options popup menu */
+.obsidian-lineup-wrapper .lu-more-options {
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-l);
+}
+
+.obsidian-lineup-wrapper .lu-more-options > i {
+  color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-more-options > i:hover,
+.obsidian-lineup-wrapper .lu-more-options > i:focus,
+.obsidian-lineup-wrapper .lu-more-options > i.lu-active {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+/* Search dropdown lists */
+.obsidian-lineup-wrapper .lu-search-list {
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-l);
+}
+
+.obsidian-lineup-wrapper .lu-search-list li.lu-search-group > span {
+  background-color: var(--background-secondary);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .lu-search-list li.lu-search-item > span:hover,
+.obsidian-lineup-wrapper .lu-search-list li.lu-search-highlighted > span {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.obsidian-lineup-wrapper .lu-hierarchy-adder > .lu-search > ul {
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--divider-color);
+}
+
+/* Side panel entries & headers mapped to Obsidian theme tokens */
+.obsidian-lineup-wrapper .lu-side-panel-entry {
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-entry-header {
+  background-color: var(--background-secondary);
+  color: var(--text-normal);
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-labels {
+  color: var(--text-normal);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-toolbar {
+  color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-toolbar i:hover {
+  color: var(--text-normal);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-ranking-header,
+.obsidian-lineup-wrapper .lu-side-panel-rankings {
+  background-color: var(--background-secondary);
+  border-color: var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-ranking-label {
+  color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-side-panel-ranking-label:hover,
+.obsidian-lineup-wrapper .lu-side-panel-ranking-label.lu-active {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.obsidian-lineup-wrapper .lu-hierarchy-entry,
+.obsidian-lineup-wrapper .lu-hierarchy-adder {
+  border-color: var(--divider-color);
+  color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-hierarchy-entry:hover {
+  color: var(--text-normal);
+}
+
+/* Boxplot whiskers, sparkline axes & chart lines mapped to theme tokens */
+.obsidian-lineup-wrapper .lu-boxplot-whisker {
+  border-left-color: var(--text-muted);
+  border-right-color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-boxplot-whisker::before {
+  border-bottom-color: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper .lu-renderer-sparkline > line,
+.obsidian-lineup-wrapper path.lu-slope,
+.obsidian-lineup-wrapper path.lu-group-slope {
+  stroke: var(--divider-color);
+}
+
+.obsidian-lineup-wrapper .lu-renderer-sparkline > path {
+  stroke: var(--text-normal);
+}
+
+.obsidian-lineup-wrapper svg.lu-dialog-mapper-details line {
+  stroke: var(--text-muted);
+}
+
+.obsidian-lineup-wrapper svg.lu-dialog-mapper-details circle {
+  fill: var(--text-normal);
+}
+
+
+
