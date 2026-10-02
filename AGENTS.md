@@ -40,6 +40,5 @@ The plugin follows a flat, minimalist 3-file structure implementing the Obsidian
 ## 3. Git & Production Rules
 - `package.json` and `package-lock.json` MUST be committed to Git for deterministic dependency resolution.
 - Temporary files, tests, and build artifacts (`node_modules/`, `*.tmp.*`) must remain ignored.
-- Bump new version: `npm version patch` or `npm version x.x.x``
+- Bump new version: `npm version patch` or `npm version x.x.x` (configured via `.npmrc` to omit the `v` prefix).
 - Release new version: `git push origin main --tags`
-`
