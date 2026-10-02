@@ -1,4 +1,4 @@
-# LineUp for Obsidian Bases
+# LineUp for Bases
 
 Interactive multi-attribute ranking and visualization view for [Obsidian Bases](https://obsidian.md). Powered by [LineUp.js](https://lineup.js.org). Adapted to Obsidian such that it works interactively and adapts to the installed theme.
 
