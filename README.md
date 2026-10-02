@@ -14,8 +14,8 @@ Interactive multi-attribute ranking and visualization view for [Obsidian Bases](
 ## Installation
 
 ### Obsidian Community Plugin
-> [!NOTE]
-> Obsidian Community Plugin submission is currently in progress. Until approved, install via GitHub Releases or [BRAT](https://github.com/TfTHacker/obsidian42-brat).
+Install the plugin via the official Obsidian Community Plugin Store: [[LineUp for Bases]](https://community.obsidian.md/plugins/lineup-bases).
+Alternatively, install via [BRAT](https://github.com/TfTHacker/obsidian42-brat).
 
 ### Manual Installation
 
