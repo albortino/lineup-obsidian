@@ -9,6 +9,7 @@ import {
   LineUp,
   Ranking,
 } from "lineupjs";
+import type { IColumnDesc } from "lineupjs";
 import type { BasesSortConfig } from "obsidian";
 import type { ColumnDesc } from "./types";
 
@@ -100,7 +101,7 @@ export class LineUpPanel {
     this.resizeObserver.observe(this.container);
 
     // Schedule update so LineUp calculates exact dimensions after mounting in DOM
-    requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       this.removeCollapsers();
       this.instance?.update();
     });
@@ -160,21 +161,22 @@ export class LineUpPanel {
   private addPanelToggle(): void {
     if (this.container.querySelector(":scope > .obsidian-lineup-panel-toggle")) return;
 
-    const toggle = document.createElement("button");
-    toggle.className = "obsidian-lineup-panel-toggle";
-    toggle.type = "button";
-    toggle.textContent = "»";
-    toggle.setAttribute("aria-label", "Toggle side panel");
-    toggle.setAttribute("title", "Collapse side panel");
-    toggle.setAttribute("aria-expanded", "true");
+    const toggle = this.container.createEl("button", {
+      cls: "obsidian-lineup-panel-toggle",
+      type: "button",
+      text: "»",
+      attr: {
+        "aria-label": "Toggle side panel",
+        title: "Collapse side panel",
+        "aria-expanded": "true",
+      },
+    });
 
     toggle.addEventListener("click", (e) => {
       e.stopPropagation();
       e.preventDefault();
       this.toggleSidePanel();
     });
-
-    this.container.appendChild(toggle);
   }
 
   toggleSidePanel(forceCollapse?: boolean): void {
@@ -206,7 +208,7 @@ export class LineUpPanel {
     const stop = (): void => {
       this.autoScrollVelocity = 0;
       if (this.autoScrollAnimId !== null) {
-        cancelAnimationFrame(this.autoScrollAnimId);
+        window.cancelAnimationFrame(this.autoScrollAnimId);
         this.autoScrollAnimId = null;
       }
     };
@@ -219,7 +221,7 @@ export class LineUpPanel {
           body.scrollLeft += this.autoScrollVelocity;
           if (header) header.scrollLeft = body.scrollLeft;
         }
-        this.autoScrollAnimId = requestAnimationFrame(step);
+        this.autoScrollAnimId = window.requestAnimationFrame(step);
       } else {
         this.autoScrollAnimId = null;
       }
@@ -249,13 +251,13 @@ export class LineUpPanel {
           const ratio = Math.min(1, Math.max(0, (rect.left + threshold - e.clientX) / threshold));
           this.autoScrollVelocity = -Math.max(2, Math.round(ratio * maxSpeed));
           if (this.autoScrollAnimId === null) {
-            this.autoScrollAnimId = requestAnimationFrame(step);
+            this.autoScrollAnimId = window.requestAnimationFrame(step);
           }
         } else if (e.clientX >= rect.right - threshold && e.clientX <= rect.right + 50) {
           const ratio = Math.min(1, Math.max(0, (e.clientX - (rect.right - threshold)) / threshold));
           this.autoScrollVelocity = Math.max(2, Math.round(ratio * maxSpeed));
           if (this.autoScrollAnimId === null) {
-            this.autoScrollAnimId = requestAnimationFrame(step);
+            this.autoScrollAnimId = window.requestAnimationFrame(step);
           }
         } else {
           stop();
@@ -312,7 +314,7 @@ export class LineUpPanel {
     );
   }
 
-  flushChange(): unknown | null {
+  flushChange(): unknown {
     return this.instance ? this.instance.dump() : null;
   }
 
@@ -335,7 +337,7 @@ export class LineUpPanel {
     this.abortController?.abort();
     this.abortController = null;
     if (this.autoScrollAnimId !== null) {
-      cancelAnimationFrame(this.autoScrollAnimId);
+      window.cancelAnimationFrame(this.autoScrollAnimId);
       this.autoScrollAnimId = null;
     }
     this.resizeObserver?.disconnect();
@@ -347,13 +349,12 @@ export class LineUpPanel {
 }
 
 /** Map inferred ColumnDesc to lineupjs column builders. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function buildColumn(col: ColumnDesc, data: Array<Record<string, unknown>>): any {
+export function buildColumn(col: ColumnDesc, data: Array<Record<string, unknown>>): IColumnDesc {
   try {
     if (col.type === "number") {
       const nb = buildNumberColumn(col.id, col.domain);
       if (col.label) nb.label(col.label);
-      if (col.color) nb.color(col.color);
+      if (col.color) nb.colorMapping(col.color);
       if (col.width) nb.width(col.width);
       return nb.build(data);
     }
@@ -361,7 +362,6 @@ export function buildColumn(col: ColumnDesc, data: Array<Record<string, unknown>
       const cats = col.categories ?? [...new Set(data.map((r) => r[col.id]).filter((v) => v != null).map(String))];
       const cb = buildCategoricalColumn(col.id, cats);
       if (col.label) cb.label(col.label);
-      if (col.color) cb.color(col.color);
       if (col.width) cb.width(col.width);
       return cb.build(data);
     }
@@ -376,6 +376,8 @@ export function buildColumn(col: ColumnDesc, data: Array<Record<string, unknown>
     if (col.width) sb.width(col.width);
     return sb.build(data);
   } catch {
-    return { type: col.type, column: col.id, label: col.label };
+    const fallback = buildStringColumn(col.id);
+    if (col.label) fallback.label(col.label);
+    return fallback.build(data);
   }
 }

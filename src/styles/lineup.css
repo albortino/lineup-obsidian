@@ -30,7 +30,7 @@
 /* Suppress LineUp's internal collapser in favor of our accessible custom toggle */
 .obsidian-lineup-wrapper .lu-collapser,
 .obsidian-lineup-wrapper [class*="collapser"] {
-  display: none !important;
+  display: none;
 }
 
 /* Flex layout: main table + side panel */
@@ -96,9 +96,9 @@
   background-color: var(--background-modifier-hover);
 }
 
-.obsidian-lineup-wrapper .le-tr.lu-selected {
-  background-color: var(--background-modifier-active-hover) !important;
-  box-shadow: none !important;
+.obsidian-lineup-wrapper.lu .le-tr.lu-selected {
+  background-color: var(--background-modifier-active-hover);
+  box-shadow: none;
 }
 
 /* Histogram & distribution bars */
@@ -139,9 +139,9 @@
   width: 100%;
 }
 
-.obsidian-lineup-wrapper.lu-panel-collapsed > aside,
-.obsidian-lineup-wrapper.lu-panel-collapsed > .lu-side-panel {
-  display: none !important;
+.obsidian-lineup-wrapper.lu.lu-panel-collapsed > aside,
+.obsidian-lineup-wrapper.lu.lu-panel-collapsed > .lu-side-panel {
+  display: none;
 }
 
 /* Floating dialogs, menus, search dropdowns and tooltips */

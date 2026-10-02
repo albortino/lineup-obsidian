@@ -6,7 +6,6 @@ import {
   BooleanValue,
   HoverParent,
   HoverPopover,
-  NotNullValue,
   NullValue,
   NumberValue,
   QueryController,
@@ -49,20 +48,26 @@ export function getEntryValue(entry: BasesEntry, id: string): unknown {
   let val: Value | null = null;
   try {
     val = entry.getValue(id as BasesPropertyId);
-  } catch {}
+  } catch {
+    // Property key not directly present on entry
+  }
 
   // 2. If not found and unprefixed, try "note.<id>"
   if (val == null && !id.includes(".")) {
     try {
       val = entry.getValue(`note.${id}` as BasesPropertyId);
-    } catch {}
+    } catch {
+      // Note-prefixed property not present
+    }
   }
 
   // 3. If not found and starts with "note.", try unprefixed "<id>"
   if (val == null && id.startsWith("note.")) {
     try {
       val = entry.getValue(id.slice(5) as BasesPropertyId);
-    } catch {}
+    } catch {
+      // Unprefixed fallback not present
+    }
   }
 
   return unwrapValue(val);
@@ -81,7 +86,9 @@ export function getColumnLabel(config: { getDisplayName?(id: BasesPropertyId): s
         if (noteLabel && noteLabel !== `note.${id}`) return noteLabel;
       }
     }
-  } catch {}
+  } catch {
+    // Config displayName resolver unavailable
+  }
   return id.replace(/^(note|file|formula)\./, "");
 }
 
@@ -138,7 +145,9 @@ export class LineUpView extends BasesView implements HoverParent {
       if (dump) {
         try {
           this.config?.set?.("lineupLayout", dump);
-        } catch {}
+        } catch {
+          // Layout config persistence failed or unsupported
+        }
       }
     }
     this.panel?.destroy();
