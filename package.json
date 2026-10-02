@@ -1,6 +1,6 @@
 {
   "name": "obsidian-lineup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "LineUp.js rankings for Obsidian Bases",
   "main": "main.js",
   "scripts": {

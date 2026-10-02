@@ -1,7 +1,7 @@
 {
 	"id": "lineup-bases",
 	"name": "LineUp for Bases",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"minAppVersion": "1.10.0",
 	"description": "Rank, sort, and compare your notes across multiple properties using visual tables, charts, and custom weights. Build upon [LineUp.js](https://github.com/lineupjs/lineupjs/).",
 	"author": "Mathias Schneider",
